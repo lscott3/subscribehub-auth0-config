@@ -1,0 +1,9 @@
+# shared/connections/database.yaml
+name: "Username-Password-Authentication"
+strategy: "auth0"
+enabled_clients:
+  - "SubscribeHub Web Portal"
+options:
+  password_policy: "good"
+  requires_username: false
+  brute_force_protection: true

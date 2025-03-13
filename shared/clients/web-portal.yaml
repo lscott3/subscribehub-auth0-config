@@ -1,0 +1,8 @@
+# shared/clients/web-portal.yaml
+name: "SubscribeHub Web Portal"
+app_type: "regular_web"
+callbacks:
+  - "https://{{DOMAIN_NAME}}/auth/auth0/callback"
+allowed_logout_urls:
+  - "https://{{DOMAIN_NAME}}"
+token_endpoint_auth_method: "post"

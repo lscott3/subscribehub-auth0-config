@@ -1,0 +1,4 @@
+# environments/dev/tenant.yaml
+AUTH0_DOMAIN: "dev-subscribehub.us.auth0.com"
+AUTH0_CLIENT_ID: "{{DEV_CLIENT_ID}}"
+AUTH0_CLIENT_SECRET: "{{DEV_CLIENT_SECRET}}"

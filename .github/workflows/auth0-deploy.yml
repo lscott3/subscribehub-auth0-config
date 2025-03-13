@@ -1,0 +1,31 @@
+# .github/workflows/auth0-deploy.yml
+name: Auth0 Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'auth0-config/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install -g auth0-deploy-cli
+
+      - name: Deploy to Dev
+        run: a0deploy import --config_file auth0-config/environments/dev/tenant.yaml --input_folder ./auth0-config
+        env:
+          DEV_CLIENT_ID: ${{ secrets.DEV_CLIENT_ID }}
+          DEV_CLIENT_SECRET: ${{ secrets.DEV_CLIENT_SECRET }}
+          EXTENSION_ID: ${{ secrets.DEV_EXTENSION_ID }}
+          DOMAIN_NAME: dev.subscribehub.com

@@ -1,0 +1,11 @@
+# shared/connections/google-oauth2.yaml
+name: "google-oauth2"
+strategy: "google-oauth2"
+enabled_clients:
+  - "SubscribeHub Chrome Extension"
+options:
+  scopes:
+    - "email"
+    - "profile"
+    - "https://www.googleapis.com/auth/youtube.readonly"
+  set_user_root_attributes: "on_each_login"
