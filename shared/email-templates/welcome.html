@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to SubscribeHub</title>
+    <style type="text/css">
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        color: #333;
+      }
+
+      .email-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        background-color: #6772E5;
+        padding: 20px;
+        text-align: center;
+      }
+
+      .header h1 {
+        color: white;
+        margin: 0;
+        font-size: 24px;
+      }
+
+      .content {
+        padding: 20px;
+        background-color: #ffffff;
+      }
+
+      .button {
+        display: inline-block;
+        background-color: #6772E5;
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        margin: 20px 0;
+      }
+
+      .footer {
+        font-size: 12px;
+        color: #888;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .user-type {
+        font-weight: bold;
+        color: #6772E5;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="email-container">
+      <div class="header">
+        <h1>SubscribeHub</h1>
+      </div>
+      <div class="content">
+        <h2>Welcome to SubscribeHub!</h2>
+        <p>Hi {{user.name}},</p>
+        <p>Thanks for joining SubscribeHub as a <span class="user-type">{{user.user_metadata.user_type}}</span>. We're
+          excited to have you on board!</p>
+
+        {% if user.user_metadata.user_type == 'supporter' %}
+        <p>As a Supporter, you can now:</p>
+        <ul>
+          <li>Subscribe to your favorite content creators</li>
+          <li>Access exclusive content</li>
+          <li>Support creators directly</li>
+        </ul>
+        {% endif %}
+
+        {% if user.user_metadata.user_type == 'creator' %}
+        <p>As a Creator, you can now:</p>
+        <ul>
+          <li>Upload exclusive content for your subscribers</li>
+          <li>Manage your subscription tiers</li>
+          <li>View analytics and engagement metrics</li>
+        </ul>
+        {% endif %}
+
+        {% if user.user_metadata.user_type == 'brand' %}
+        <p>As a Brand partner, you can now:</p>
+        <ul>
+          <li>Create marketing campaigns</li>
+          <li>Connect with relevant creators</li>
+          <li>Track campaign performance</li>
+        </ul>
+        {% endif %}
+
+        <p><a class="button" href="https://{{application.baseURL}}">Get Started</a></p>
+
+        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
+
+        <p>Best,<br>The SubscribeHub Team</p>
+      </div>
+      <div class="footer">
+        <p>&copy; {{ year }} SubscribeHub. All rights reserved.</p>
+        <p>Our address: 123 Subscriber St., Creator City, CM 12345</p>
+        <p><a href="https://{{application.baseURL}}/unsubscribe?email={{user.email}}">Unsubscribe from marketing
+            emails</a></p>
+      </div>
+    </div>
+  </body>
+
+</html>

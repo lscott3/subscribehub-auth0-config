@@ -1,0 +1,30 @@
+# shared/email-templates/email-provider.yaml
+name: "smtp"
+enabled: true
+default_from_address: "no-reply@{{DOMAIN_NAME}}"
+credentials:
+  smtp_host: "{{SMTP_HOST}}"
+  smtp_port: 587
+  smtp_user: "{{SMTP_USER}}"
+  smtp_pass: "{{SMTP_PASS}}"
+templates:
+  - template: "verify_email"
+    enabled: true
+    syntax: "liquid"
+    from: "SubscribeHub <no-reply@{{DOMAIN_NAME}}>"
+    subject: "Please verify your email for SubscribeHub"
+    body: !include verification.html
+
+  - template: "welcome_email"
+    enabled: true
+    syntax: "liquid"
+    from: "SubscribeHub <no-reply@{{DOMAIN_NAME}}>"
+    subject: "Welcome to SubscribeHub!"
+    body: !include welcome.html
+
+  - template: "reset_email"
+    enabled: true
+    syntax: "liquid"
+    from: "SubscribeHub <no-reply@{{DOMAIN_NAME}}>"
+    subject: "Reset your SubscribeHub password"
+    body: !include reset-password.html

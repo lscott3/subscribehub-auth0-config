@@ -57,6 +57,9 @@ jobs:
           echo "EXTENSION_ID=${{ secrets.EXTENSION_ID }}" >> .env
           echo "DOMAIN_NAME=${{ secrets[format('{0}_DOMAIN_NAME', env.ENVIRONMENT)] }}" >> .env
           echo "BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY }}" >> .env
+          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+          echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
+          echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
 
       - name: Process template files
         run: |
