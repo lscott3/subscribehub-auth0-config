@@ -1,0 +1,31 @@
+# shared/permissions/role-permissions.yaml
+- role: "Supporter"
+  permissions:
+    - "read:profile"
+    - "update:profile"
+    - "read:subscriptions"
+    - "create:subscription"
+    - "cancel:subscription"
+    - "read:payments"
+
+- role: "Creator"
+  permissions:
+    - "read:profile"
+    - "update:profile"
+    - "read:subscriptions"
+    - "read:analytics"
+    - "read:payments"
+    - "create:content"
+    - "update:content"
+    - "delete:content"
+
+- role: "Brand"
+  permissions:
+    - "read:profile"
+    - "update:profile"
+    - "read:analytics"
+    - "read:payments"
+    - "create:campaign"
+    - "update:campaign"
+    - "delete:campaign"
+    - "invite:creator"

@@ -1,0 +1,6 @@
+# shared/tenant-settings/cross-origin-policy.yaml
+cross_origin_embedder_policy:
+  allowed_origins:
+    - "https://{{DOMAIN_NAME}}"
+    - "chrome-extension://{{EXTENSION_ID}}"
+  require_corp: true

@@ -1,0 +1,11 @@
+# shared/tenant-settings/universal-login.yaml
+colors:
+  primary: "#6772E5"
+  page_background: "#F5F7F9"
+universal_login:
+  colors:
+    primary: "#6772E5"
+    page_background: "#F5F7F9"
+  passwordless:
+    smsTemplate: "Your SubscribeHub verification code is {code}"
+    emailTemplate: "Your SubscribeHub verification code is {code}"

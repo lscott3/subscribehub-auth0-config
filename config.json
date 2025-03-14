@@ -1,11 +1,16 @@
 {
-  "AUTH0_DOMAIN": "",
-  "AUTH0_CLIENT_ID": "",
-  "AUTH0_CLIENT_SECRET": "",
+  "AUTH0_DOMAIN": "{{AUTH0_DOMAIN}}",
+  "AUTH0_CLIENT_ID": "{{AUTH0_CLIENT_ID}}",
+  "AUTH0_CLIENT_SECRET": "{{AUTH0_CLIENT_SECRET}}",
   "AUTH0_ALLOW_DELETE": false,
   "EXCLUDED_PROPS": {
     "clients": [
       "client_secret"
     ]
+  },
+  "AUTH0_KEYWORD_REPLACE_MAPPINGS": {
+    "DOMAIN_NAME": "{{DOMAIN_NAME}}",
+    "EXTENSION_ID": "{{EXTENSION_ID}}",
+    "BACKEND_API_KEY": "{{BACKEND_API_KEY}}"
   }
 }

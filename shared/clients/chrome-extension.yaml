@@ -5,6 +5,25 @@ callbacks:
   - "chrome-extension://{{EXTENSION_ID}}/callback.html"
 allowed_origins:
   - "chrome-extension://{{EXTENSION_ID}}"
+web_origins:
+  - "chrome-extension://{{EXTENSION_ID}}"
+allowed_logout_urls:
+  - "chrome-extension://{{EXTENSION_ID}}/logout.html"
+token_endpoint_auth_method: "none"
+grant_types:
+  - "authorization_code"
+  - "implicit"
+  - "refresh_token"
+oidc_conformant: true
 jwt_configuration:
   lifetime_in_seconds: 86400
   algorithm: "RS256"
+refresh_token:
+  rotation_type: "rotating"
+  expiration_type: "expiring"
+  leeway: 0
+  token_lifetime: 2592000
+  infinite_token_lifetime: false
+  infinite_idle_token_lifetime: false
+  idle_token_lifetime: 1296000
+initiate_login_uri: "chrome-extension://{{EXTENSION_ID}}/login.html"

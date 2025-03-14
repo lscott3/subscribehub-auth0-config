@@ -1,0 +1,9 @@
+# shared/tenant-settings/cors.yaml
+allowed_origins:
+  - "https://{{DOMAIN_NAME}}"
+  - "chrome-extension://{{EXTENSION_ID}}"
+  - "com.subscribehub://"
+  - "capacitor://localhost"
+  - "http://localhost:3000"  # For local development
+  - "http://localhost:8080"  # For local development
+allow_credentials: true

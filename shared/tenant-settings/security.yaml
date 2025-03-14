@@ -1,0 +1,15 @@
+# shared/tenant-settings/security.yaml
+brute_force_protection: true
+flags:
+  enable_client_connections: true
+  enable_apis_section: true
+  enable_pipeline2: true
+  disable_clickjack_protection_headers: false
+  enable_public_signup_user_exists_error: true
+  no_disclose_enterprise_connections: true
+  enable_sso: true
+
+session_cookie:
+  mode: "non_persistent"
+
+sandbox_version: "12"

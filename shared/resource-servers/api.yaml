@@ -1,0 +1,51 @@
+# shared/resource-servers/api.yaml
+name: "SubscribeHub API"
+identifier: "https://api.{{DOMAIN_NAME}}"
+scopes:
+  - value: "read:profile"
+    description: "Read user profiles"
+
+  - value: "update:profile"
+    description: "Update user profile"
+
+  - value: "read:subscriptions"
+    description: "View subscription details"
+
+  - value: "create:subscription"
+    description: "Create new subscriptions"
+
+  - value: "cancel:subscription"
+    description: "Cancel existing subscriptions"
+
+  - value: "read:analytics"
+    description: "View analytics data"
+
+  - value: "read:payments"
+    description: "View payment history"
+
+  - value: "create:content"
+    description: "Create and publish new content"
+
+  - value: "update:content"
+    description: "Update existing content"
+
+  - value: "delete:content"
+    description: "Delete content"
+
+  - value: "create:campaign"
+    description: "Create brand campaigns"
+
+  - value: "update:campaign"
+    description: "Update brand campaigns"
+
+  - value: "delete:campaign"
+    description: "Delete brand campaigns"
+
+  - value: "invite:creator"
+    description: "Invite creators to campaigns"
+
+signing_alg: "RS256"
+token_lifetime: 86400
+skip_consent_for_verifiable_first_party_clients: true
+enforce_policies: true
+token_dialect: "access_token_authz"

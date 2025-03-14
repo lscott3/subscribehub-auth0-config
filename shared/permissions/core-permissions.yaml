@@ -1,0 +1,42 @@
+# shared/permissions/core-permissions.yaml
+- name: "read:profile"
+  description: "Read user profiles"
+
+- name: "update:profile"
+  description: "Update user profile"
+
+- name: "read:subscriptions"
+  description: "View subscription details"
+
+- name: "create:subscription"
+  description: "Create new subscriptions"
+
+- name: "cancel:subscription"
+  description: "Cancel existing subscriptions"
+
+- name: "read:analytics"
+  description: "View analytics data"
+
+- name: "read:payments"
+  description: "View payment history"
+
+- name: "create:content"
+  description: "Create and publish new content"
+
+- name: "update:content"
+  description: "Update existing content"
+
+- name: "delete:content"
+  description: "Delete content"
+
+- name: "create:campaign"
+  description: "Create brand campaigns"
+
+- name: "update:campaign"
+  description: "Update brand campaigns"
+
+- name: "delete:campaign"
+  description: "Delete brand campaigns"
+
+- name: "invite:creator"
+  description: "Invite creators to campaigns"
