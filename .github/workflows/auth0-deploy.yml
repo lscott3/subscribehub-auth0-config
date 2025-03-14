@@ -72,6 +72,10 @@ jobs:
           echo "APPLE_CLIENT_SECRET=${{ secrets.APPLE_CLIENT_SECRET }}" >> .env
           echo "APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}" >> .env
           echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> .env
+          echo "ERROR_MONITORING_ENDPOINT=${{ secrets.ERROR_MONITORING_ENDPOINT }}" >> .env
+          echo "ERROR_MONITORING_API_KEY=${{ secrets.ERROR_MONITORING_API_KEY }}" >> .env
+          echo "ALERT_ENDPOINT=${{ secrets.ALERT_ENDPOINT }}" >> .env
+          echo "ALERT_API_KEY=${{ secrets.ALERT_API_KEY }}" >> .env
 
       - name: Process template files
         run: |
