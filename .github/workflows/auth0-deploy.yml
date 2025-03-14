@@ -62,6 +62,16 @@ jobs:
           echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
           echo "SNS_APNS_ARN=${{ secrets.SNS_APNS_ARN }}" >> .env
           echo "SNS_GCM_ARN=${{ secrets.SNS_GCM_ARN }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}" >> .env
+          echo "FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}" >> .env
+          echo "TWITTER_CLIENT_ID=${{ secrets.TWITTER_CLIENT_ID }}" >> .env
+          echo "TWITTER_CLIENT_SECRET=${{ secrets.TWITTER_CLIENT_SECRET }}" >> .env
+          echo "APPLE_CLIENT_ID=${{ secrets.APPLE_CLIENT_ID }}" >> .env
+          echo "APPLE_CLIENT_SECRET=${{ secrets.APPLE_CLIENT_SECRET }}" >> .env
+          echo "APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}" >> .env
+          echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> .env
 
       - name: Process template files
         run: |

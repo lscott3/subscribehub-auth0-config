@@ -1,0 +1,19 @@
+# shared/connections/apple.yaml
+name: "apple"
+strategy: "apple"
+enabled_clients:
+  - "SubscribeHub Web Portal"
+  - "SubscribeHub Chrome Extension"
+  - "SubscribeHub Mobile App"
+options:
+  client_id: "{{APPLE_CLIENT_ID}}"
+  client_secret: "{{APPLE_CLIENT_SECRET}}"
+  team_id: "{{APPLE_TEAM_ID}}"
+  key_id: "{{APPLE_KEY_ID}}"
+  scopes:
+    - "name"
+    - "email"
+  set_user_root_attributes: "on_first_login"
+  attributes_map:
+    given_name: "user_metadata.first_name"
+    family_name: "user_metadata.last_name"

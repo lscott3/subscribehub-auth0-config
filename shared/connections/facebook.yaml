@@ -1,28 +1,23 @@
-# shared/connections/google-oauth2.yaml
-name: "google-oauth2"
-strategy: "google-oauth2"
+# shared/connections/facebook.yaml
+name: "facebook"
+strategy: "facebook"
 enabled_clients:
   - "SubscribeHub Web Portal"
   - "SubscribeHub Chrome Extension"
   - "SubscribeHub Mobile App"
 options:
-  client_id: "{{GOOGLE_CLIENT_ID}}"
-  client_secret: "{{GOOGLE_CLIENT_SECRET}}"
+  client_id: "{{FACEBOOK_CLIENT_ID}}"
+  client_secret: "{{FACEBOOK_CLIENT_SECRET}}"
   allowed_audiences:
     - "https://{{DOMAIN_NAME}}"
-  profile: true
   scopes:
     - "email"
-    - "profile"
-    - "https://www.googleapis.com/auth/youtube.readonly"
+    - "public_profile"
+    - "user_location"
   set_user_root_attributes: "on_each_login"
   non_persistent_attrs: []
   upstream_params:
-    prompt: "consent"
-  upstream_params_configuration:
-    - key: prompt
-      value: consent
-      trigger_on: "login"
+    auth_type: "reauthenticate"
   attributes_map:
     given_name: "user_metadata.first_name"
     family_name: "user_metadata.last_name"

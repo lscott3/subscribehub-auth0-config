@@ -1,0 +1,14 @@
+# shared/connections/twitter.yaml
+name: "twitter"
+strategy: "twitter"
+enabled_clients:
+  - "SubscribeHub Web Portal"
+  - "SubscribeHub Chrome Extension"
+  - "SubscribeHub Mobile App"
+options:
+  client_id: "{{TWITTER_CLIENT_ID}}"
+  client_secret: "{{TWITTER_CLIENT_SECRET}}"
+  set_user_root_attributes: "on_each_login"
+  upstream_params: {}
+  attributes_map:
+    name: "user_metadata.full_name"
