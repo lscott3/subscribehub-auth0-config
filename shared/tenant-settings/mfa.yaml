@@ -1,0 +1,17 @@
+# shared/tenant-settings/mfa.yaml
+enabled: true
+remember_browser: 30 # days to remember browser
+provider: "guardian"
+push_credentials:
+  environment: "production"
+  app_bundle_identifier: "com.subscribehub"
+  android_app_package_name: "com.subscribehub"
+  aws_region: "us-east-1"
+  sns_apns_platform_application_arn: "{{SNS_APNS_ARN}}"
+  sns_gcm_platform_application_arn: "{{SNS_GCM_ARN}}"
+phone_message_hook: "send-custom-mfa-sms"
+phone_provider: "auth0"
+email_provider: "auth0"
+totp_options:
+  time_step: 30
+  length: 6

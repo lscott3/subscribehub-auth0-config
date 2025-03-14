@@ -60,6 +60,8 @@ jobs:
           echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
           echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
           echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
+          echo "SNS_APNS_ARN=${{ secrets.SNS_APNS_ARN }}" >> .env
+          echo "SNS_GCM_ARN=${{ secrets.SNS_GCM_ARN }}" >> .env
 
       - name: Process template files
         run: |
