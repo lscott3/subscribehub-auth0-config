@@ -6,6 +6,21 @@ on:
       - main  # For production
       - staging  # For staging
       - develop  # For development
+    paths:
+      - 'shared/**'
+      - 'environments/**'
+      - 'config.json'
+      - '.github/workflows/deploy-auth0.yml'
+  pull_request:
+    branches:
+      - main
+      - staging
+      - develop
+    paths:
+      - 'shared/**'
+      - 'environments/**'
+      - 'config.json'
+      - '.github/workflows/deploy-auth0.yml'
   workflow_dispatch:
     inputs:
       environment:
@@ -17,9 +32,195 @@ on:
           - dev
           - staging
           - prod
+      dry_run:
+        description: 'Dry run (validate only)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
+  validate:
+    name: Validate Auth0 Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Determine environment
+        id: determine-env
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+            echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+          else
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+          fi
+
+      - name: Create .env file
+        run: |
+          echo "AUTH0_CLIENT_ID=${{ secrets[format('{0}_CLIENT_ID', env.ENVIRONMENT)] }}" >> .env
+          echo "AUTH0_CLIENT_SECRET=${{ secrets[format('{0}_CLIENT_SECRET', env.ENVIRONMENT)] }}" >> .env
+          echo "EXTENSION_ID=${{ secrets.EXTENSION_ID }}" >> .env
+          echo "DOMAIN_NAME=${{ secrets[format('{0}_DOMAIN_NAME', env.ENVIRONMENT)] }}" >> .env
+          echo "BACKEND_API_KEY=${{ secrets.BACKEND_API_KEY }}" >> .env
+          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+          echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
+          echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
+          echo "SNS_APNS_ARN=${{ secrets.SNS_APNS_ARN }}" >> .env
+          echo "SNS_GCM_ARN=${{ secrets.SNS_GCM_ARN }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "FACEBOOK_CLIENT_ID=${{ secrets.FACEBOOK_CLIENT_ID }}" >> .env
+          echo "FACEBOOK_CLIENT_SECRET=${{ secrets.FACEBOOK_CLIENT_SECRET }}" >> .env
+          echo "TWITTER_CLIENT_ID=${{ secrets.TWITTER_CLIENT_ID }}" >> .env
+          echo "TWITTER_CLIENT_SECRET=${{ secrets.TWITTER_CLIENT_SECRET }}" >> .env
+          echo "APPLE_CLIENT_ID=${{ secrets.APPLE_CLIENT_ID }}" >> .env
+          echo "APPLE_CLIENT_SECRET=${{ secrets.APPLE_CLIENT_SECRET }}" >> .env
+          echo "APPLE_TEAM_ID=${{ secrets.APPLE_TEAM_ID }}" >> .env
+          echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> .env
+          echo "ERROR_MONITORING_ENDPOINT=${{ secrets.ERROR_MONITORING_ENDPOINT }}" >> .env
+          echo "ERROR_MONITORING_API_KEY=${{ secrets.ERROR_MONITORING_API_KEY }}" >> .env
+          echo "ALERT_ENDPOINT=${{ secrets.ALERT_ENDPOINT }}" >> .env
+          echo "ALERT_API_KEY=${{ secrets.ALERT_API_KEY }}" >> .env
+
+      - name: Process template files
+        run: |
+          # Create a simple script to replace placeholders
+          cat > replace-placeholders.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          require('dotenv').config();
+
+          // Get all YAML files recursively
+          function getAllFiles(dirPath, arrayOfFiles = []) {
+            const files = fs.readdirSync(dirPath);
+
+            files.forEach(file => {
+              const filePath = path.join(dirPath, file);
+              if (fs.statSync(filePath).isDirectory()) {
+                arrayOfFiles = getAllFiles(filePath, arrayOfFiles);
+              } else if (filePath.endsWith('.yaml') || filePath.endsWith('.yml')) {
+                arrayOfFiles.push(filePath);
+              }
+            });
+
+            return arrayOfFiles;
+          }
+
+          // Replace placeholders in all YAML files
+          const allYamlFiles = getAllFiles('./');
+
+          allYamlFiles.forEach(file => {
+            let content = fs.readFileSync(file, 'utf8');
+
+            // Replace all placeholders in format {{KEY}} with corresponding env variables
+            content = content.replace(/\{\{([A-Z_]+)\}\}/g, (match, envVar) => {
+              return process.env[envVar] || match;
+            });
+
+            fs.writeFileSync(file, content);
+            console.log(`Processed: ${file}`);
+          });
+          EOF
+
+          # Run the placeholder replacement script
+          node replace-placeholders.js
+
+      - name: Validate Auth0 configuration
+        run: |
+          # Create validation script
+          cat > validate-config.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const yaml = require('js-yaml');
+
+          let hasError = false;
+
+          // Validate YAML files
+          function validateYamlFiles(dirPath) {
+            const files = fs.readdirSync(dirPath);
+
+            files.forEach(file => {
+              const filePath = path.join(dirPath, file);
+
+              if (fs.statSync(filePath).isDirectory()) {
+                validateYamlFiles(filePath);
+              } else if (filePath.endsWith('.yaml') || filePath.endsWith('.yml')) {
+                try {
+                  const content = fs.readFileSync(filePath, 'utf8');
+                  yaml.load(content);
+                  console.log(`✓ Valid YAML: ${filePath}`);
+                } catch (error) {
+                  console.error(`✗ Invalid YAML in ${filePath}: ${error.message}`);
+                  hasError = true;
+                }
+              }
+            });
+          }
+
+          // Validate JavaScript files
+          function validateJsFiles(dirPath) {
+            const files = fs.readdirSync(dirPath);
+
+            files.forEach(file => {
+              const filePath = path.join(dirPath, file);
+
+              if (fs.statSync(filePath).isDirectory()) {
+                validateJsFiles(filePath);
+              } else if (filePath.endsWith('.js')) {
+                try {
+                  // Basic syntax validation by requiring the file
+                  require(path.resolve(filePath));
+                  console.log(`✓ Valid JS: ${filePath}`);
+                } catch (error) {
+                  console.error(`✗ Invalid JS in ${filePath}: ${error.message}`);
+                  hasError = true;
+                }
+              }
+            });
+          }
+
+          console.log('Validating YAML files...');
+          validateYamlFiles('./shared');
+          validateYamlFiles('./environments');
+
+          console.log('\nValidating JavaScript files...');
+          validateJsFiles('./shared/actions');
+          validateJsFiles('./shared/rules');
+
+          if (hasError) {
+            console.error('\n❌ Validation failed. Please fix the errors above.');
+            process.exit(1);
+          } else {
+            console.log('\n✅ All files validated successfully!');
+          }
+          EOF
+
+          # Install yaml package for validation
+          npm install --no-save js-yaml
+
+          # Run validation
+          node validate-config.js
+
   deploy:
+    name: Deploy Auth0 Configuration
+    needs: validate
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run != 'true')
     runs-on: ubuntu-latest
 
     steps:
@@ -124,3 +325,33 @@ jobs:
         run: npm run deploy:${{ env.ENVIRONMENT }}
         env:
           NODE_ENV: ${{ env.ENVIRONMENT }}
+
+      - name: Run post-deployment script
+        run: npm run permissions:${{ env.ENVIRONMENT }}
+        env:
+          NODE_ENV: ${{ env.ENVIRONMENT }}
+
+      - name: Export current configuration
+        run: npm run export:${{ env.ENVIRONMENT }}
+        env:
+          NODE_ENV: ${{ env.ENVIRONMENT }}
+
+      - name: Archive exported configuration
+        uses: actions/upload-artifact@v3
+        with:
+          name: auth0-${{ env.ENVIRONMENT }}-export
+          path: ./export-${{ env.ENVIRONMENT }}
+          retention-days: 30
+
+      - name: Send deployment notification
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d '{
+            "text": "✅ Auth0 deployment to ${{ env.ENVIRONMENT }} succeeded",
+            "environment": "${{ env.ENVIRONMENT }}",
+            "service": "Auth0",
+            "version": "${{ github.sha }}",
+            "deployedBy": "${{ github.actor }}",
+            "repository": "${{ github.repository }}",
+            "commit": "${{ github.sha }}"
+          }' ${{ secrets.DEPLOYMENT_WEBHOOK_URL || 'https://example.com/webhook' }}
