@@ -13,18 +13,21 @@ templates:
     syntax: "liquid"
     from: "SubscribeHub <no-reply@{{DOMAIN_NAME}}>"
     subject: "Please verify your email for SubscribeHub"
-    body: !include verification.html
+    body: |
+      {% include 'verification.html' %}
 
   - template: "welcome_email"
     enabled: true
     syntax: "liquid"
     from: "SubscribeHub <no-reply@{{DOMAIN_NAME}}>"
     subject: "Welcome to SubscribeHub!"
-    body: !include welcome.html
+    body: |
+      {% include 'welcome.html' %}
 
   - template: "reset_email"
     enabled: true
     syntax: "liquid"
     from: "SubscribeHub <no-reply@{{DOMAIN_NAME}}>"
     subject: "Reset your SubscribeHub password"
-    body: !include reset-password.html
+    body: |
+      {% include 'reset-password.html' %}
