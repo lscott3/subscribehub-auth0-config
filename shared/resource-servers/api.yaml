@@ -1,6 +1,6 @@
 # shared/resource-servers/api.yaml
 name: "SubscribeHub API"
-identifier: "https://api.{{DOMAIN_NAME}}"
+identifier: "https://api.##DOMAIN_NAME##"
 scopes:
   - value: "read:profile"
     description: "Read user profiles"

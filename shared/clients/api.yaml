@@ -7,6 +7,5 @@ grant_types:
 oidc_conformant: true
 jwt_configuration:
   lifetime_in_seconds: 86400
-  algorithm: "RS256"
 client_metadata:
   purpose: "Backend API access"
