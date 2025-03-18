@@ -2,15 +2,15 @@
 name: "SubscribeHub Web Portal"
 app_type: "regular_web"
 callbacks:
-  - "https://{{DOMAIN_NAME}}/auth/auth0/callback"
+  - "http://##DOMAIN_NAME##/auth/auth0/callback"
 allowed_logout_urls:
-  - "https://{{DOMAIN_NAME}}"
-  - "https://{{DOMAIN_NAME}}/logout"
+  - "http://##DOMAIN_NAME##"
+  - "http://##DOMAIN_NAME##/logout"
 web_origins:
-  - "https://{{DOMAIN_NAME}}"
+  - "http://##DOMAIN_NAME##"
 allowed_origins:
-  - "https://{{DOMAIN_NAME}}"
-token_endpoint_auth_method: "post"
+  - "http://##DOMAIN_NAME##"
+token_endpoint_auth_method: "client_secret_post"
 grant_types:
   - "authorization_code"
   - "refresh_token"
@@ -20,7 +20,6 @@ sso_disabled: false
 cross_origin_auth: false
 jwt_configuration:
   lifetime_in_seconds: 36000
-  algorithm: "RS256"
 refresh_token:
   rotation_type: "rotating"
   expiration_type: "expiring"

@@ -4,12 +4,12 @@ strategy: "google-oauth2"
 enabled_clients:
   - "SubscribeHub Web Portal"
   - "SubscribeHub Chrome Extension"
-  - "SubscribeHub Mobile App"
 options:
-  client_id: "{{GOOGLE_CLIENT_ID}}"
-  client_secret: "{{GOOGLE_CLIENT_SECRET}}"
+  client_id: "##GOOGLE_CLIENT_ID##"
+  client_secret: "##GOOGLE_CLIENT_SECRET##"
   allowed_audiences:
-    - "https://{{DOMAIN_NAME}}"
+    - "chrome-extension://##EXTENSION_ID##"
+    - "https://##DOMAIN_NAME##"
   profile: true
   scopes:
     - "email"
@@ -17,8 +17,6 @@ options:
     - "https://www.googleapis.com/auth/youtube.readonly"
   set_user_root_attributes: "on_each_login"
   non_persistent_attrs: []
-  upstream_params:
-    prompt: "consent"
   upstream_params_configuration:
     - key: prompt
       value: consent

@@ -3,21 +3,21 @@ name: "facebook"
 strategy: "facebook"
 enabled_clients:
   - "SubscribeHub Web Portal"
-  - "SubscribeHub Chrome Extension"
-  - "SubscribeHub Mobile App"
 options:
-  client_id: "{{FACEBOOK_CLIENT_ID}}"
-  client_secret: "{{FACEBOOK_CLIENT_SECRET}}"
+  client_id: "##FACEBOOK_CLIENT_ID##"
+  client_secret: "##FACEBOOK_CLIENT_SECRET##"
   allowed_audiences:
-    - "https://{{DOMAIN_NAME}}"
+    - "https://##DOMAIN_NAME##"
   scopes:
     - "email"
     - "public_profile"
     - "user_location"
   set_user_root_attributes: "on_each_login"
   non_persistent_attrs: []
-  upstream_params:
-    auth_type: "reauthenticate"
+  upstream_params_configuration:
+    - key: auth_type
+      value: reauthenticate
+      trigger_on: "login"
   attributes_map:
     given_name: "user_metadata.first_name"
     family_name: "user_metadata.last_name"

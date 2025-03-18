@@ -7,3 +7,18 @@ options:
   password_policy: "good"
   requires_username: false
   brute_force_protection: true
+  enable_signup: true
+  disable_signup: false
+  min_username_length: 3
+  max_username_length: 50
+  password_complexity_options:
+    min_length: 8
+  password_history:
+    enable: true
+    size: 5
+  password_no_personal_info:
+    enable: true
+  password_dictionary:
+    enable: true
+  mfa:
+    active: false
